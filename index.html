@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Employee Task Manager</h1>
+    <p>Please review the tasks and mark them as done (Yes) or not done (No).</p>
+
+    <form id="taskForm">
+        <table>
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Done</th>
+                </tr>
+            </thead>
+            <tbody id="taskList">
+                <!-- Task rows will be dynamically generated here -->
+            </tbody>
+        </table>
+        <button type="submit">Submit Tasks</button>
+    </form>
+
+    <script>
+        // Initial test task list
+        const tasks = [
+            { id: 1, description: "Test Task 1", done: false },
+            { id: 2, description: "Test Task 2", done: false },
+            { id: 3, description: "Test Task 3", done: false }
+        ];
+
+        // Function to generate task list dynamically in the HTML
+        function generateTaskList() {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = ''; // Clear existing task rows
+
+            tasks.forEach(task => {
+                const row = document.createElement('tr');
+
+                const taskDescriptionCell = document.createElement('td');
+                taskDescriptionCell.innerText = task.description;
+                row.appendChild(taskDescriptionCell);
+
+                const taskDoneCell = document.createElement('td');
+                taskDoneCell.innerHTML = `
+                    <label>
+                        <input type="radio" name="task_${task.id}" value="yes"> Yes
+                    </label>
+                    <label>
+                        <input type="radio" name="task_${task.id}" value="no" checked> No
+                    </label>
+                `;
+                row.appendChild(taskDoneCell);
+
+                taskList.appendChild(row);
+            });
+        }
+
+        // Populate the task list when the page loads
+        generateTaskList();
+
+        // Handle form submission
+        document.getElementById('taskForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission (default)
+
+            // Update task status based on the selected radio buttons
+            tasks.forEach(task => {
+                const selectedValue = document.querySelector(`input[name="task_${task.id}"]:checked`).value;
+                task.done = (selectedValue === 'yes');
+            });
+
+            // For now, let's just log the results to the console (you can extend this later)
+            console.log('Task results:', tasks);
+
+            alert('Tasks submitted successfully!');
+        });
+    </script>
+</body>
+</html>
