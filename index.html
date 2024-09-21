@@ -62,6 +62,9 @@
             const taskList = document.getElementById('taskList');
             taskList.innerHTML = ''; // Clear existing task rows
 
+            // Logging to see if tasks are processed
+            console.log("Generating tasks:", tasks);
+
             tasks.forEach(task => {
                 const row = document.createElement('tr');
 
@@ -84,8 +87,11 @@
             });
         }
 
-        // Populate the task list when the page loads
-        generateTaskList();
+        // Ensure the task list is generated after DOM loads
+        document.addEventListener('DOMContentLoaded', (event) => {
+            console.log("DOM fully loaded and parsed.");
+            generateTaskList();
+        });
 
         // Function to handle form submission
         document.getElementById('taskForm').addEventListener('submit', function(event) {
@@ -99,7 +105,7 @@
             });
 
             // Submit form data as JSON to Formspree
-            fetch("https://formspree.io/f/xkgwlrlz", { // Corrected the URL syntax
+            fetch("https://formspree.io/f/xkgwlrlz", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
