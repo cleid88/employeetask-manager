@@ -48,13 +48,14 @@
     </form>
 
     <script>
-        // Updated task list from Excel file
+        // Updated task list with actual task descriptions
         const tasks = [
             { id: 1, description: "Fylle på brød", done: false },
             { id: 2, description: "Fylle på frosne bakevarer", done: false },
             { id: 3, description: "Plakater", done: false },
             { id: 4, description: "Fylle på frosne brødvarer og kaker", done: false },
-            { id: 5, description: "Temperaturkontroll", done: false }
+            { id: 5, description: "Temperaturkontroll", done: false },
+            { id: 6, description: "Restvarer kjøl/meieri", done: false }
         ];
 
         // Function to generate task list dynamically in the HTML
@@ -72,10 +73,10 @@
                 const taskDoneCell = document.createElement('td');
                 taskDoneCell.innerHTML = `
                     <label>
-                        <input type="radio" name="task_${task.id}" value="Yes"> Yes
+                        <input type="radio" name="${task.description}" value="Yes"> Yes
                     </label>
                     <label>
-                        <input type="radio" name="task_${task.id}" value="No" checked> No
+                        <input type="radio" name="${task.description}" value="No" checked> No
                     </label>
                 `;
                 row.appendChild(taskDoneCell);
