@@ -32,7 +32,6 @@
     <h1>Employee Task Manager</h1>
     <p>Please review the tasks and mark them as done (Yes) or not done (No).</p>
 
-    <!-- Use the Formspree endpoint for form submission -->
     <form id="taskForm" action="https://formspree.io/f/xkgwlrlz" method="POST">
         <table>
             <thead>
@@ -49,11 +48,13 @@
     </form>
 
     <script>
-        // Initial test task list
+        // Updated task list from Excel file
         const tasks = [
-            { id: 1, description: "Test Task 1", done: false },
-            { id: 2, description: "Test Task 2", done: false },
-            { id: 3, description: "Test Task 3", done: false }
+            { id: 1, description: "Fylle på brød", done: false },
+            { id: 2, description: "Fylle på frosne bakevarer", done: false },
+            { id: 3, description: "Plakater", done: false },
+            { id: 4, description: "Fylle på frosne brødvarer og kaker", done: false },
+            { id: 5, description: "Temperaturkontroll", done: false }
         ];
 
         // Function to generate task list dynamically in the HTML
