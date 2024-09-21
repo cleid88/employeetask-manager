@@ -32,7 +32,8 @@
     <h1>Employee Task Manager</h1>
     <p>Please review the tasks and mark them as done (Yes) or not done (No).</p>
 
-    <form id="taskForm">
+    <!-- Use the Formspree endpoint for form submission -->
+    <form id="taskForm" action="https://formspree.io/YOUR_EMAIL" method="POST">
         <table>
             <thead>
                 <tr>
@@ -70,10 +71,10 @@
                 const taskDoneCell = document.createElement('td');
                 taskDoneCell.innerHTML = `
                     <label>
-                        <input type="radio" name="task_${task.id}" value="yes"> Yes
+                        <input type="radio" name="task_${task.id}" value="Yes"> Yes
                     </label>
                     <label>
-                        <input type="radio" name="task_${task.id}" value="no" checked> No
+                        <input type="radio" name="task_${task.id}" value="No" checked> No
                     </label>
                 `;
                 row.appendChild(taskDoneCell);
@@ -84,22 +85,6 @@
 
         // Populate the task list when the page loads
         generateTaskList();
-
-        // Handle form submission
-        document.getElementById('taskForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission (default)
-
-            // Update task status based on the selected radio buttons
-            tasks.forEach(task => {
-                const selectedValue = document.querySelector(`input[name="task_${task.id}"]:checked`).value;
-                task.done = (selectedValue === 'yes');
-            });
-
-            // For now, let's just log the results to the console (you can extend this later)
-            console.log('Task results:', tasks);
-
-            alert('Tasks submitted successfully!');
-        });
     </script>
 </body>
 </html>
