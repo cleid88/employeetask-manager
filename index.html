@@ -23,10 +23,25 @@
         appId: "1:844620022890:web:d7716565c89eb93b533613",
         measurementId: "G-3K71LEBPC5"
       };
+      
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
+      console.log("Firebase Initialized"); // Check if Firebase initializes
       const analytics = firebase.analytics();
+      console.log("Firebase Analytics Initialized"); // Check if Analytics initializes
       const db = firebase.firestore();
+      console.log("Firestore Initialized"); // Check if Firestore initializes
+
+      // Test Firestore connection by adding a document
+      db.collection("testCollection").add({
+        testField: "Test Value"
+      })
+      .then((docRef) => {
+        console.log("Test document written with ID: ", docRef.id);
+      })
+      .catch((error) => {
+        console.error("Error writing document: ", error);
+      });
     </script>
 
     <style>
