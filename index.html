@@ -7,8 +7,8 @@
 
     <!-- Firebase App (the core Firebase SDK) -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <!-- Firebase Authentication -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <!-- Firebase Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js"></script>
     <!-- Firebase Firestore -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 
@@ -25,6 +25,7 @@
       };
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
+      const analytics = firebase.analytics();
       const db = firebase.firestore();
     </script>
 
