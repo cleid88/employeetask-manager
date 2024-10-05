@@ -4,6 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Manager</title>
+    // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDOq9HKBdKxkzzi-jUzG7dvwiDs6e9Welo",
+  authDomain: "task-manager-ec329.firebaseapp.com",
+  projectId: "task-manager-ec329",
+  storageBucket: "task-manager-ec329.appspot.com",
+  messagingSenderId: "844620022890",
+  appId: "1:844620022890:web:d7716565c89eb93b533613",
+  measurementId: "G-3K71LEBPC5"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
     <style>
         body {
             font-family: Arial, sans-serif;
