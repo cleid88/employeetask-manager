@@ -85,6 +85,14 @@
         button:hover {
             background-color: #45a049;
         }
+
+        /* Error message styling */
+        #error-message {
+            color: red;
+            font-weight: bold;
+            margin-top: 15px;
+            display: none; /* Hidden by default */
+        }
     </style>
 </head>
 <body>
@@ -114,6 +122,7 @@
             </tbody>
         </table>
         <button type="submit">Submit Tasks</button>
+        <div id="error-message">All tasks must be signed before submission.</div>
     </form>
 
     <script>
@@ -184,6 +193,7 @@
             const formData = {};
             const timeSlot = document.getElementById('timeSelect').value;
             const tasks = taskLists[timeSlot] || [];
+            const errorMessage = document.getElementById('error-message');
 
             let allSigned = true; // Flag to check if all tasks are signed
 
@@ -192,16 +202,17 @@
                 const signValue = document.querySelector(`input[name="sign_${task.id}"]`).value.trim();
 
                 if (!signValue) {
-                    alert(`Please sign the task: "${task.description}" before submitting.`);
                     allSigned = false; // Set flag to false if any task is unsigned
-                    return;
                 }
                 
-                formData[task.description] = { done: selectedValue, signedBy: signValue };
+                formData[task.description] = { done: selectedValue, signedBy: signValue || "Unsigned" };
             });
 
-            // Submit if all tasks are signed
-            if (allSigned) {
+            // Display error message if not all tasks are signed
+            if (!allSigned) {
+                errorMessage.style.display = 'block';
+            } else {
+                errorMessage.style.display = 'none';
                 fetch("https://formspree.io/f/xkgwlrlz", {
                     method: "POST",
                     headers: {
