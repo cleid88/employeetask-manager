@@ -176,7 +176,7 @@
         // Load tasks when time slot selection changes
         document.getElementById('timeSelect').addEventListener('change', generateTaskList);
 
-        // Handle form submission
+        // Handle form submission with validation
         document.getElementById('taskForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission behavior
 
@@ -185,31 +185,42 @@
             const timeSlot = document.getElementById('timeSelect').value;
             const tasks = taskLists[timeSlot] || [];
 
+            let allSigned = true; // Flag to check if all tasks are signed
+
             tasks.forEach(task => {
                 const selectedValue = document.querySelector(`input[name="task_${task.id}"]:checked`).value;
-                const signValue = document.querySelector(`input[name="sign_${task.id}"]`).value;
-                formData[task.description] = { done: selectedValue, signedBy: signValue || "Unsigned" };
+                const signValue = document.querySelector(`input[name="sign_${task.id}"]`).value.trim();
+
+                if (!signValue) {
+                    alert(`Please sign the task: "${task.description}" before submitting.`);
+                    allSigned = false; // Set flag to false if any task is unsigned
+                    return;
+                }
+                
+                formData[task.description] = { done: selectedValue, signedBy: signValue };
             });
 
-            // Submit form data as JSON to Formspree
-            fetch("https://formspree.io/f/xkgwlrlz", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert("Tasks submitted successfully!");
-                } else {
-                    alert("Failed to submit tasks.");
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("An error occurred while submitting tasks.");
-            });
+            // Submit if all tasks are signed
+            if (allSigned) {
+                fetch("https://formspree.io/f/xkgwlrlz", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Tasks submitted successfully!");
+                    } else {
+                        alert("Failed to submit tasks.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while submitting tasks.");
+                });
+            }
         });
 
         // Initialize task list based on default time slot
