@@ -15,45 +15,27 @@
     <script>
       // Your web app's Firebase configuration
       var firebaseConfig = {
-        apiKey: "AIzaSyDOq9HKBdKxkzzi-jUzG7dvwiDs6e9Welo",
-        authDomain: "task-manager-ec329.firebaseapp.com",
-        projectId: "task-manager-ec329",
-        storageBucket: "task-manager-ec329.appspot.com",
-        messagingSenderId: "844620022890",
-        appId: "1:844620022890:web:d7716565c89eb93b533613",
-        measurementId: "G-3K71LEBPC5"
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
       };
       
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
-      console.log("Firebase Initialized");
       const analytics = firebase.analytics();
       const db = firebase.firestore();
     </script>
 
     <style>
-        /* Random nature background from Unsplash */
+        /* Gradient Background */
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
-            background: url('https://source.unsplash.com/random/1600x900/?nature') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(135deg, #83a4d4, #b6fbff);
             color: #333;
         }
         
-        /* Optional overlay for readability */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.3);
-            z-index: -1;
-        }
-
-        /* Additional styles for readability */
         table {
             width: 100%;
             border-collapse: collapse;
