@@ -32,20 +32,34 @@
     </script>
 
     <style>
-        /* Random Background */
+        /* Random nature background from Unsplash */
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
-            background: linear-gradient(135deg, #83a4d4, #b6fbff); /* Gradient from blue to light teal */
+            background: url('https://source.unsplash.com/random/1600x900/?nature') no-repeat center center fixed;
+            background-size: cover;
             color: #333;
         }
         
+        /* Optional overlay for readability */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.3);
+            z-index: -1;
+        }
+
+        /* Additional styles for readability */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            background-color: #ffffff;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
         
         table, th, td {
