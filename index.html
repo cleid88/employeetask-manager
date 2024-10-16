@@ -28,20 +28,7 @@
       firebase.initializeApp(firebaseConfig);
       console.log("Firebase Initialized"); // Check if Firebase initializes
       const analytics = firebase.analytics();
-      console.log("Firebase Analytics Initialized"); // Check if Analytics initializes
       const db = firebase.firestore();
-      console.log("Firestore Initialized"); // Check if Firestore initializes
-
-      // Test Firestore connection by adding a document
-      db.collection("testCollection").add({
-        testField: "Test Value"
-      })
-      .then((docRef) => {
-        console.log("Test document written with ID: ", docRef.id);
-      })
-      .catch((error) => {
-        console.error("Error writing document: ", error);
-      });
     </script>
 
     <style>
@@ -70,7 +57,16 @@
 </head>
 <body>
     <h1>Employee Task Manager</h1>
-    <p>Please review the tasks and mark them as done (Yes) or not done (No).</p>
+    <p>Select a time slot and review the tasks. Mark them as done (Yes) or not done (No).</p>
+
+    <!-- Dropdown to select time slot -->
+    <label for="timeSelect">Select Time Slot:</label>
+    <select id="timeSelect">
+        <option value="morning">Morning</option>
+        <option value="day">Day</option>
+        <option value="evening">Evening</option>
+        <option value="closing">Closing</option>
+    </select>
 
     <form id="taskForm">
         <table>
@@ -88,30 +84,36 @@
     </form>
 
     <script>
-        // Task list
-        const tasks = [
-            { id: 1, description: "Fylle på brød", done: false },
-            { id: 2, description: "Fylle på frosne bakevarer", done: false },
-            { id: 3, description: "Plakater", done: false },
-            { id: 4, description: "Fylle på frosne brødvarer og kaker", done: false },
-            { id: 5, description: "Temperaturkontroll", done: false },
-            { id: 6, description: "Fylle på restvarer kjøl/meieri", done: false },
-            { id: 7, description: "Fremtrekk kjøl/meieri", done: false },
-            { id: 8, description: "Fylle på Tine", done: false },
-            { id: 9, description: "Restvarer drikke", done: false },
-            { id: 10, description: "Restvarer frys", done: false },
-            { id: 11, description: "Fylle på nye kjølevarer", done: false },
-            { id: 12, description: "Fylle på nye tørrvarer", done: false }
-        ];
+        // Define task lists for each time slot
+        const taskLists = {
+            morning: [
+                { id: 1, description: "Open registers", done: false },
+                { id: 2, description: "Stock shelves with fresh products", done: false }
+            ],
+            day: [
+                { id: 3, description: "Assist customers", done: false },
+                { id: 4, description: "Reorganize display areas", done: false }
+            ],
+            evening: [
+                { id: 5, description: "Restock evening supplies", done: false },
+                { id: 6, description: "Check inventory levels", done: false }
+            ],
+            closing: [
+                { id: 7, description: "Clean and close registers", done: false },
+                { id: 8, description: "Secure premises", done: false }
+            ]
+        };
 
-        // Generate the task list dynamically in the HTML
+        // Function to generate task list based on the selected time slot
         function generateTaskList() {
             const taskList = document.getElementById('taskList');
             taskList.innerHTML = ''; // Clear existing task rows
 
-            // Logging to see if tasks are processed
-            console.log("Generating tasks:", tasks);
+            // Get selected time slot from dropdown
+            const timeSlot = document.getElementById('timeSelect').value;
+            const tasks = taskLists[timeSlot] || []; // Get tasks for the selected time slot
 
+            // Populate tasks in the table
             tasks.forEach(task => {
                 const row = document.createElement('tr');
 
@@ -134,11 +136,8 @@
             });
         }
 
-        // Ensure the task list is generated after DOM loads
-        document.addEventListener('DOMContentLoaded', (event) => {
-            console.log("DOM fully loaded and parsed.");
-            generateTaskList();
-        });
+        // Load tasks when time slot selection changes
+        document.getElementById('timeSelect').addEventListener('change', generateTaskList);
 
         // Handle form submission
         document.getElementById('taskForm').addEventListener('submit', function(event) {
@@ -146,6 +145,9 @@
 
             // Gather the status of each task
             const formData = {};
+            const timeSlot = document.getElementById('timeSelect').value;
+            const tasks = taskLists[timeSlot] || [];
+
             tasks.forEach(task => {
                 const selectedValue = document.querySelector(`input[name="task_${task.id}"]:checked`).value;
                 formData[task.description] = selectedValue; // Store task description as key and result as value
@@ -171,6 +173,9 @@
                 alert("An error occurred while submitting tasks.");
             });
         });
+
+        // Initialize task list based on default time slot
+        document.addEventListener('DOMContentLoaded', generateTaskList);
     </script>
 </body>
 </html>
