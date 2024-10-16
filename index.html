@@ -26,7 +26,7 @@
       
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
-      console.log("Firebase Initialized"); // Check if Firebase initializes
+      console.log("Firebase Initialized");
       const analytics = firebase.analytics();
       const db = firebase.firestore();
     </script>
@@ -57,7 +57,7 @@
 </head>
 <body>
     <h1>Employee Task Manager</h1>
-    <p>Select a time slot and review the tasks. Mark them as done (Yes) or not done (No).</p>
+    <p>Select a time slot, review the tasks, mark them as done, and sign each task.</p>
 
     <!-- Dropdown to select time slot -->
     <label for="timeSelect">Select Time Slot:</label>
@@ -74,6 +74,7 @@
                 <tr>
                     <th>Task</th>
                     <th>Done</th>
+                    <th>Sign</th>
                 </tr>
             </thead>
             <tbody id="taskList">
@@ -132,6 +133,10 @@
                 `;
                 row.appendChild(taskDoneCell);
 
+                const taskSignCell = document.createElement('td');
+                taskSignCell.innerHTML = `<input type="text" name="sign_${task.id}" placeholder="Enter name">`;
+                row.appendChild(taskSignCell);
+
                 taskList.appendChild(row);
             });
         }
@@ -143,14 +148,15 @@
         document.getElementById('taskForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission behavior
 
-            // Gather the status of each task
+            // Gather the status and signature of each task
             const formData = {};
             const timeSlot = document.getElementById('timeSelect').value;
             const tasks = taskLists[timeSlot] || [];
 
             tasks.forEach(task => {
                 const selectedValue = document.querySelector(`input[name="task_${task.id}"]:checked`).value;
-                formData[task.description] = selectedValue; // Store task description as key and result as value
+                const signValue = document.querySelector(`input[name="sign_${task.id}"]`).value;
+                formData[task.description] = { done: selectedValue, signedBy: signValue || "Unsigned" };
             });
 
             // Submit form data as JSON to Formspree
